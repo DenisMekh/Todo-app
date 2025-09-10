@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException
-
+from typing import Optional
 
 async def create_todo(text: str, db: AsyncSession, status: bool = False) -> Todo:
     """
@@ -24,14 +24,23 @@ async def create_todo(text: str, db: AsyncSession, status: bool = False) -> Todo
     return todo
 
 
-async def get_todos(db: AsyncSession) -> List[Todo]:
+async def get_todos(db: AsyncSession, status: Optional[bool] = None, priority: Optional[int] = None) -> List[Todo]:
     """
     Получает список всех задач
 
     Returns:
         List[Todo]: список задач
     """
+    try:
+        query = select(Todo)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Todo not found")
     
+    if status:
+        query = query.where(Todo.status == status)
+    if priority:
+        query = query.where(Todo.priority == priority)
+        
     result = await db.execute(select(Todo))
     todos = result.scalars().all()
     return todos

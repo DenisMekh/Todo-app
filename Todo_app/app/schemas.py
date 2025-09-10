@@ -12,6 +12,7 @@ class TodoRead(BaseModel):
     id: int
     text: str
     status: bool
+    priority: int
     
     
     class Config:

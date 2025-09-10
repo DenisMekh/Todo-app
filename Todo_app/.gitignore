@@ -1,7 +1,24 @@
-__pycache__/
+# Виртуальное окружение
 .venv/
-.env
-.DS_Store
+venv/
+env/
+ENV/
+
+# Python кэш
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Конфиги IDE
 .vscode/
-*.pyc
-.vscode
+.idea/
+
+# Логи
+*.log
+
+# Файлы базы данных SQLite (если вдруг есть)
+*.sqlite3
+
+# Файлы окружения
+.env
+.env.*
